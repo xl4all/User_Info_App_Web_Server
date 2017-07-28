@@ -1,0 +1,10 @@
+html
+	head
+		title 
+	body
+		h1 Pug - Add User
+		form(action='/adduser', method='post')
+			input(type='text', name='firstname' placeholder= ' firstname' autocomplete="off" required)
+			input(type='text', name='lastname' placeholder='lastname' required)
+			input(type='text', name='email' placeholder= 'email' required)
+			input(type='submit', value='submit')

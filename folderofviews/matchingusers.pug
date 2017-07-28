@@ -1,0 +1,12 @@
+html
+	head
+		title 
+	body
+		h1 Pug - Matching Users
+		if searcheduser
+			p #{searcheduser.email} #{searcheduser.firstname} #{searcheduser.lastname}
+		else
+			p No user found!
+			
+
+
