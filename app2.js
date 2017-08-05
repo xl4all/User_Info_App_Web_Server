@@ -104,7 +104,7 @@ var newUser = {
 };
 
 parsedUsers.push(newUser); //parsedUsers is an Array van Objects... 
-
+//met parsedusers wordt het nieuwe object toegevoegd aan de huidige parsedusers en zijn er nu 5 objecten ipv 4
 var stringified = JSON.stringify(parsedUsers); 
 
 fs.writeFile('users.json', stringified , (err) => {
@@ -120,21 +120,50 @@ res.redirect('/');
 
 //////////////////////////////
 
-// var express = require('express');
-// var app = express();
+app.post('/searchedmatched', function(req,res){
 
-// app.listen(3000,function(req,res){
-// 	console.log('app is running on port 3000....');
-// });
+var typedinSearchbar = req.body.contentblabla.toLowerCase();
 
-// //In order 2 run Pug alongside with Express we need these 2 lines
-// app.set('views', './views');
-// app.set('view engine', 'pug');
+//lege array creeren voor matches als response, of om een lege array te versturen.
+//We kunnen deze array later reassignen in de for loop. CHECK
 
-// app.get('/', function (req, res) {
-//   res.render('index', { title: 'Hey', message: 'Hello there!' })
-// })
+//json file met users leesbaar maken(parsen). CHECK
 
+//input searchbar en namen in json file gelijk in case sensitivity maken met toLowerCase() CHECK
+
+//if statement conditie om te checken of de input van searchbar gevonden kan worden
+//met includes() in de namen van json file CHECK
+
+//loopen door de namen CHECK
+
+//response met array in object versturen, buiten de for loop plaatsen. CHECK
+var matches = [];
+
+fs.readFile('./users.json', function (err, data){
+		if (err) {
+			throw err; 
+		}
+		var parsedUsers = JSON.parse(data);
+
+
+		for (var i = 0; i < parsedUsers.length; i++) { //loop through users
+
+			//plaats voorwaarde op users
+			if (typedinSearchbar === "") {
+				matches = [];
+			} else if(parsedUsers[i].firstname.toLowerCase().includes(typedinSearchbar) || parsedUsers[i].lastname.toLowerCase().includes(typedinSearchbar)) {
+				matches.push(parsedUsers[i]);
+			}
+
+		}
+
+		console.log(matches);
+
+		//verstuur respons met matches (wel of niet)
+		res.send({ array: matches} );
+
+	});
+});
 
 //De server blijft luisteren naar port 3000...
 app.listen(3000, function(){

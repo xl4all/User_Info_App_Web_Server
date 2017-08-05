@@ -4,5 +4,61 @@ html
 	body
 		h1 Pug - Searchbar
 		form(action='/matchingusers', method='post')
-			input(type='text', name='veryImportantData', autocomplete="off")
+			input#inputSearchbar(type='text', name='veryImportantData', autocomplete="off")
 			input(type='submit', value='submit')
+
+		div#listMatchingUsers
+
+		script(src='http://code.jquery.com/jquery-3.2.1.min.js')
+		script.
+			$(document).ready(function() {
+				//- er komt een event binnen (iemand drukt op key) en we moeten de text in de searchbar lezen met body-parser. (server en clienst side)
+
+				$( "#inputSearchbar" ).keyup(function() {
+				
+					var input = $("#inputSearchbar").val()
+
+	
+
+					var contentSearchbar = {
+							contentblabla: input
+						}
+
+				//- dan sturen we post ajax request
+					$.post("/searchedmatched", contentSearchbar, function(response, textStatus) {
+
+						$("#listMatchingUsers").html("<ul>");
+
+						for(var i = 0; i < response.array.length; i++) {
+							$("ul").append("<li>" + response.array[i].firstname + " " + response.array[i].lastname + "</li")
+						}
+						
+
+					});
+				});
+
+			});
+
+			//- dan gaan we naar de server side 
+
+			//- het jsonbestand lezen (server side).
+
+			//- we moeten de voor en achternamen lezen 
+
+			//- 4 loop gebruiken
+
+			//- body-parser
+
+			//- met dot.val inhoud van search bar vastgrijpen
+
+			//- if else
+
+			//- json.parse read.fs
+
+			//- post request om inhoud van searchbar te sturen
+
+			//- response terug van server naar client met response.send
+
+			//- zodra response ontvangen van de clientside geven we nieuwe info vanuit de serverside
+
+			//- met jquery geven we de nieuwe pagina weer
